@@ -1,0 +1,4 @@
+data/
+others/
+*.env*
+!*example.env*
