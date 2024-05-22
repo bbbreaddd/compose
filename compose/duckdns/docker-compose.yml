@@ -1,0 +1,18 @@
+---
+version: "2.1"
+services:
+  duckdns:
+    image: lscr.io/linuxserver/duckdns
+    container_name: duckdns
+    environment:
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+      - TZ=America/Los_Angeles
+      - SUBDOMAINS=${SUBDOMAINS}
+      - TOKEN=${TOKEN}
+      - LOG_FILE=false #optional
+    volumes:
+      - ${DATA_PATH}/config:/config #optional
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
