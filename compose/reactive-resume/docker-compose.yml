@@ -22,29 +22,29 @@ services:
       retries: 5
 
   # Storage (for image uploads)
-#  minio:
-#    image: minio/minio
-#    restart: unless-stopped
-#    container_name: minio
-#    command: server /data
-#    ports:
-#      - "9922:9000"
-#    volumes:
-#      - ${DATA_PATH}/minio_data:/data
-#    environment:
-#      MINIO_ROOT_USER: minioadmin
-#      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+  minio:
+    image: minio/minio
+    restart: unless-stopped
+    container_name: minio
+    command: server /data
+    ports:
+      - "9922:9000"
+    volumes:
+      - ${DATA_PATH}/minio_data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
 
   # Chrome Browser (for printing and previews)
-#  chrome:
-#    image: ghcr.io/browserless/chromium:latest
-#    restart: unless-stopped
-#    environment:
-#      TIMEOUT: 10000
-#      CONCURRENT: 10
-#      TOKEN: chrome_token
-#      EXIT_ON_HEALTH_FAILURE: true
-#      PRE_REQUEST_HEALTH_CHECK: true
+  chrome:
+    image: ghcr.io/browserless/chromium:latest
+    restart: unless-stopped
+    environment:
+      TIMEOUT: 10000
+      CONCURRENT: 10
+      TOKEN: chrome_token
+      EXIT_ON_HEALTH_FAILURE: true
+      PRE_REQUEST_HEALTH_CHECK: true
 
   app:
     image: amruthpillai/reactive-resume:latest
