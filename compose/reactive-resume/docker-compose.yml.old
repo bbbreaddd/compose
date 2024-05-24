@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ${DATA_PATH}/resume/pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${
+
+  server:
+    image: amruthpillai/reactive-resume:server-latest
+    restart: always
+    ports:
+      - 3750:3100
+    depends_on:
+      - postgres
+    environment:
+  #    - PUBLIC_URL=http://192.168.1.222:5550
+      - PUBLIC_SERVER_URL=http://192.168.1.222:3750
+      - PUBLIC_GOOGLE_CLIENT_ID=
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - SECRET_KEY=change-me-to-something-secure
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_SSL_CERT=
+      - JWT_SECRET=change-me-to-something-secure
+      - JWT_EXPIRY_TIME=604800
+      - GOOGLE_CLIENT_SECRET=
+      - GOOGLE_API_KEY=
+      - MAIL_FROM_NAME=Reactive Resume
+      - MAIL_FROM_EMAIL=noreply@rxresu.me
+      - MAIL_HOST=
+      - MAIL_PORT=
+      - MAIL_USERNAME=
+      - MAIL_PASSWORD=
+      - STORAGE_BUCKET=
+      - STORAGE_REGION=
+      - STORAGE_ENDPOINT=
+      - STORAGE_URL_PREFIX=
+      - STORAGE_ACCESS_KEY=
+      - STORAGE_SECRET_KEY=
+      - PDF_DELETION_TIME=
+
+  client:
+    image: amruthpillai/reactive-resume:client-latest
+    restart: always
+    ports:
+      - 5550:3000
+    depends_on:
+      - server
+    environment:
+      - PUBLIC_URL=http://192.168.1.222:5550
+      - PUBLIC_SERVER_URL=http://192.168.1.222:3750
+      - PUBLIC_GOOGLE_CLIENT_ID=
