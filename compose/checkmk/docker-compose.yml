@@ -1,0 +1,8 @@
+version: "3"
+services:
+  checkmk:
+    image: checkmk/check-mk-raw
+    volumes:
+      - ${DATA_PATH}/checkmk:/omd/sites
+    ports:
+      - 3990:8000
