@@ -8,4 +8,5 @@ services:
       - ${DATA_PATH}/dozzle/data:/data
     ports:
       - 8855:8080
+    restart: unless-stopped
 

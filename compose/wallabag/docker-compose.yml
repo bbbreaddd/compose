@@ -6,6 +6,8 @@ services:
     ports:
       - "2794:80"
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - ${DATA_PATH}/wallabag/wallabag-images:/var/www/wallabag/web/assets/images
     healthcheck:
@@ -28,6 +30,8 @@ services:
   wallabag_db:
     image: docker.io/postgres:14
     container_name: wallabag_db
+    env_file:
+      - .env
     volumes:
       - ${DATA_PATH}/wallabag/wallabag-db:/var/lib/postgresql/data
     healthcheck:
@@ -42,6 +46,8 @@ services:
   wallabag_cache:
     image: docker.io/redis:alpine
     container_name: wallabag_cache
+    env_file:
+      - .env
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 20s
