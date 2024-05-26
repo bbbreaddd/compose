@@ -11,8 +11,6 @@ services:
       - SUBDOMAINS=${SUBDOMAINS}
       - TOKEN=${TOKEN}
       - LOG_FILE=false #optional
-    volumes:
-      - ${DATA_PATH}/config:/config #optional
     restart: unless-stopped
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
