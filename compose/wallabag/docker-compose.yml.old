@@ -1,0 +1,57 @@
+version: '3'
+services:
+  wallabag:
+    image: docker.io/wallabag/wallabag
+    container_name: wallabag
+    ports:
+      - "2794:80"
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ${DATA_PATH}/wallabag/wallabag-images:/var/www/wallabag/web/assets/images
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost"
+        ]
+      interval: 1m
+      timeout: 3s
+    depends_on:
+      - wallabag_db
+      - wallabag_cache
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  wallabag_db:
+    image: docker.io/postgres:14
+    container_name: wallabag_db
+    env_file:
+      - .env
+    volumes:
+      - ${DATA_PATH}/wallabag/wallabag-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "wallabag"]
+      interval: 10s
+      start_period: 30s
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  wallabag_cache:
+    image: docker.io/redis:alpine
+    container_name: wallabag_cache
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 20s
+      timeout: 3s
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
