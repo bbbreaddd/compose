@@ -1,0 +1,18 @@
+version: "2.1"
+services:
+  ntfy:
+    image: binwiederhier/ntfy
+    container_name: ntfy
+    command:
+      - serve
+    env_file:
+      - .env
+    volumes:
+      - ${DATA_PATH}/ntfy/cache:/var/cache/ntfy #Message Cache
+      - ${DATA_PATH}/ntfy/data:/etc/ntfy # Server Config. Need to manually create the server.yml file. https://github.com/binwiederhier/ntfy/blob/main/server/server.yml
+      - ${DATA_PATH}/ntfy/cache2:/cache # Attachment Cache
+    ports:
+      - 8170:80
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

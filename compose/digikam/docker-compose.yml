@@ -1,0 +1,19 @@
+---
+services:
+  digikam:
+    image: lscr.io/linuxserver/digikam:latest
+    container_name: digikam
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Los_Angeles
+      - SUBFOLDER=/ #optional
+    volumes:
+      - ${DATA_PATH}/digikam/config:/config
+      - ${PHOTOS_PATH}:/config/Pictures
+    ports:
+      - 3588:3000 #optional
+      - 3589:3001 #optional
+    restart: unless-stopped
+    devices:
+    - /dev/dri:/dev/dri # For GPU Acceleration

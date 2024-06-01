@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  gotify:
+    image: gotify/server
+    ports:
+      - 3829:80
+    environment:
+      - GOTIFY_DEFAULTUSER_PASS=password
+    volumes:
+      - "${DATA_PATH}/gotify:/app/data"

@@ -6,8 +6,8 @@ services:
             - '${DATA_PATH}/filebrowser/database:/database/'
             - '${DATA_PATH}/filebrowser/config:/config/'
         environment:
-            - PUID=1000
-            - PGID=1000
+            - PUID=${PUID}
+            - PGID=${PGID}
         ports:
             - '8210:80'
         image: 'filebrowser/filebrowser:s6'
