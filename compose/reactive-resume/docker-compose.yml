@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 10s
@@ -32,7 +32,7 @@ services:
       - ${DATA_PATH}/reactive-resume/minio_data:/data
     environment:
       MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
 
   # Chrome Browser (for printing and previews)
   chrome:
@@ -60,15 +60,15 @@ services:
       NODE_ENV: production
 
       # -- URLs --
-      PUBLIC_URL: https://192.168.1.30:3927
-      STORAGE_URL: http://192.168.1.30:9080/default
+      PUBLIC_URL: ${URL}
+      STORAGE_URL: http://minio:9080/default
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: chrome_token
       CHROME_URL: ws://chrome:3000
 
       # -- Database (Postgres) --
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD}@postgres:5432/postgres
 
       # -- Auth --
       ACCESS_TOKEN_SECRET: access_token_secret
@@ -84,7 +84,7 @@ services:
       STORAGE_REGION: us-east-1 # Optional
       STORAGE_BUCKET: default
       STORAGE_ACCESS_KEY: minioadmin
-      STORAGE_SECRET_KEY: minioadmin
+      STORAGE_SECRET_KEY: ${MINIO_PASSWORD}
       STORAGE_USE_SSL: false
       STORAGE_SKIP_BUCKET_CHECK: false
 
