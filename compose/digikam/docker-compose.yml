@@ -14,6 +14,6 @@ services:
     ports:
       - 3588:3000 #optional
       - 3589:3001 #optional
-    restart: unless-stopped
+#    restart: unless-stopped # bread: Disabled for me in case it crashed my server
     devices:
     - /dev/dri:/dev/dri # For GPU Acceleration

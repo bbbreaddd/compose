@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 10s
@@ -25,15 +25,14 @@ services:
   minio:
     image: minio/minio
     restart: unless-stopped
-    container_name: minio
     command: server /data
     ports:
-      - "9922:9000"
+      - "9080:9000"
     volumes:
-      - ${DATA_PATH}/minio_data:/data
+      - ${DATA_PATH}/reactive-resume/minio_data:/data
     environment:
       MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+      MINIO_ROOT_PASSWORD: minioadmin
 
   # Chrome Browser (for printing and previews)
   chrome:
@@ -61,19 +60,19 @@ services:
       NODE_ENV: production
 
       # -- URLs --
-      PUBLIC_URL: ${URL}
-      STORAGE_URL: http://minio:9000/default
+      PUBLIC_URL: https://192.168.1.30:3927
+      STORAGE_URL: http://192.168.1.30:9080/default
 
       # -- Printer (Chrome) --
       CHROME_TOKEN: chrome_token
       CHROME_URL: ws://chrome:3000
 
       # -- Database (Postgres) --
-      DATABASE_URL: postgresql://postgres:${DB_PASSWORD}@postgres:5432/postgres
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
 
       # -- Auth --
-      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN}  # bread: I think it's just fine to do a random string of text
-      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN}
+      ACCESS_TOKEN_SECRET: access_token_secret
+      REFRESH_TOKEN_SECRET: refresh_token_secret
 
       # -- Emails --
       MAIL_FROM: noreply@localhost
@@ -87,16 +86,16 @@ services:
       STORAGE_ACCESS_KEY: minioadmin
       STORAGE_SECRET_KEY: minioadmin
       STORAGE_USE_SSL: false
+      STORAGE_SKIP_BUCKET_CHECK: false
 
       # -- Crowdin (Optional) --
       # CROWDIN_PROJECT_ID:
       # CROWDIN_PERSONAL_TOKEN:
 
       # -- Email (Optional) --
-      # DISABLE_EMAIL_AUTH: true
-      # VITE_DISABLE_SIGNUPS: true
-      # SKIP_STORAGE_BUCKET_CHECK: false
-## bread: I'm assuming these are for OAuth. Just to sign in/create an account.
+      # DISABLE_SIGNUPS: false
+      # DISABLE_EMAIL_AUTH: false
+
       # -- GitHub (Optional) --
       # GITHUB_CLIENT_ID: github_client_id
       # GITHUB_CLIENT_SECRET: github_client_secret
