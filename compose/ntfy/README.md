@@ -1,8 +1,8 @@
-Not Working (At least permissions aren't)
+Not Working (At least permissions aren't)  
 
-Homepage: https://ntfy.sh/
-Github: https://github.com/binwiederhier/ntfy
-Docker Image: https://hub.docker.com/r/binwiederhier/ntfy
+Homepage: https://ntfy.sh/  
+Github: https://github.com/binwiederhier/ntfy  
+Docker Image: https://hub.docker.com/r/binwiederhier/ntfy  
 
 # Setup
 
