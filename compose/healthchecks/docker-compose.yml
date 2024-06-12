@@ -1,23 +1,29 @@
-version: "3"
+---
 services:
   healthchecks:
-    image: healthchecks/healthchecks:latest
+    image: lscr.io/linuxserver/healthchecks:latest
     container_name: healthchecks
     environment:
-      - ALLOWED_HOSTS=${DOMAIN}
-      - DB=sqlite
-      - DB_NAME=/data/hc.sqlite
-      - DEBUG=False
-      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
-      - EMAIL_HOST=${EMAIL_HOST}
-      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
-      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
-      - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
-      - SECRET_KEY=${SECRET_KEY}
-      - SITE_ROOT=https://hc.breadcloud.net
-    ports:
-      - 4918:8000
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - SITE_ROOT=${DOMAIN}
+      - SITE_NAME=${SITE_NAME}
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
+      - ALLOWED_HOSTS= #optional
+      - APPRISE_ENABLED=${APPRISE_ENABLED} #optional
+      - DEBUG=False #optional
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL} #optional
+      - EMAIL_HOST=${EMAIL_HOST} #optional
+      - EMAIL_PORT=${EMAIL_PORT} #optional
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER} #optional
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD} #optional
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS} #optional
+      - SECRET_KEY=${SECRET_KEY} #optional
     volumes:
-      - ${DATA_PATH}/healthchecks/data:/data
+      - ${DATA_PATH}/healthchecks/config:/config
+    ports:
+      - 1455:8000
+      - 2525:2525 #optional
     restart: unless-stopped
