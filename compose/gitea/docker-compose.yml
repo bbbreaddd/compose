@@ -14,4 +14,5 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "3611:3000"
-      - "2222:22"
+      - "2222:2222"
+      - "2221:22"
