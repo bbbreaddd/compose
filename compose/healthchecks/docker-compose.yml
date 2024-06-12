@@ -1,0 +1,23 @@
+version: "3"
+services:
+  healthchecks:
+    image: healthchecks/healthchecks:latest
+    container_name: healthchecks
+    environment:
+      - ALLOWED_HOSTS=${DOMAIN}
+      - DB=sqlite
+      - DB_NAME=/data/hc.sqlite
+      - DEBUG=False
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      - SECRET_KEY=${SECRET_KEY}
+      - SITE_ROOT=https://hc.breadcloud.net
+    ports:
+      - 4918:8000
+    volumes:
+      - ${DATA_PATH}/healthchecks/data:/data
+    restart: unless-stopped
