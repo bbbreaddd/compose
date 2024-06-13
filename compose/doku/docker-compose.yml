@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+    doku:
+        container_name: doku
+        restart: unless-stopped
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+            - '/:/hostroot:ro'
+        ports:
+            - '1090:9090'
+        image: amerkurev/doku
+        labels:
+          - "com.centurylinklabs.watchtower.enable=true"

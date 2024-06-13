@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  crafty:
+    container_name: crafty_container
+    image: registry.gitlab.com/crafty-controller/crafty-4:4.3.0
+    restart: unless-stopped
+    environment:
+        - TZ=America/Los_Angeles
+    ports:
+        - "8140:8000" # HTTP
+#        - "8443:8443" # HTTPS
+#        - "8553:8123" # DYNMAP
+#        - "19132:19132/udp" # BEDROCK
+        - "25565:25565" # MC SERV PORT RANGE
+#        - "25566:25566"
+#        - "25577:25577"
+    volumes:
+        - ${DATA_PATH}/crafty/backups:/crafty/backups
+        - ${DATA_PATH}/crafty/logs:/crafty/logs
+        - ${DATA_PATH}/crafty/servers:/crafty/servers
+        - ${DATA_PATH}/crafty/config:/crafty/app/config
+        - ${DATA_PATH}/crafty/import:/crafty/import
