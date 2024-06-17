@@ -3,13 +3,13 @@ version: '3'
 services:
   crafty:
     container_name: crafty_container
-    image: registry.gitlab.com/crafty-controller/crafty-4:4.3.0
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
     restart: unless-stopped
     environment:
         - TZ=America/Los_Angeles
     ports:
         - "8140:8000" # HTTP
-#        - "8443:8443" # HTTPS
+        - "8443:8443" # HTTPS
 #        - "8553:8123" # DYNMAP
 #        - "19132:19132/udp" # BEDROCK
         - "25565:25565" # MC SERV PORT RANGE
