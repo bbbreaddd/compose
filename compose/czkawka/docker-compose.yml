@@ -1,0 +1,17 @@
+version: '3'
+services:
+  czkawka:
+    image: jlesage/czkawka
+    ports:
+      - "5300:5800"
+    user: ${USER_ID}:${GROUP_ID}
+    volumes:
+      - ${DATA_PATH}/czkawka:/config:rw # Config files
+      - ${STORAGE_PATH}:/storage:rw # Path to scan, you can add any path though. This is just the default
+      - ${TRASH_PATH}:/trash
+    environment:
+      - USER_ID=${USER_ID}
+      - GROUP_ID=${GROUP_ID}
+      - DARK_MODE=1
+      - TZ=${TZ}
+      - KEEP_APP_RUNNING=1
