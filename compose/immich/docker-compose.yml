@@ -7,8 +7,10 @@ services:
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+      - ${STORAGE}:${STORAGE}
+      - ${DATA_PATH}/immich/data/thumbs:/usr/src/app/upload/thumbs
     ports:
-      - 2283:3001
+      - 2283:2283
     depends_on:
       - redis
       - database
