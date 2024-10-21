@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+    kopia:
+        image: kopia/kopia:latest
+        hostname: kopia
+        container_name: Kopia
+        restart: unless-stopped
+        ports:
+            - 51515:51515
+        # Setup the server that provides the web gui
+        command:
+            - server
+            - start
+            - --disable-csrf-token-checks
+            - --insecure
+            - --address=0.0.0.0:51515
+            - --server-username=${KOPIA_USER}
+            - --server-password=${KOPIA_USER_PASSWORD}
+        environment:
+            # Set repository password
+            - KOPIA_PASSWORD=${KOPIA_USER_PASSWORD}
+            - USER=${KOPIA_USER}
+        volumes:
+            # Mount local folders needed by kopia
+            - ${DATA_PATH}/kopia/confit:/app/config
+            - ${DATA_PATH}/kopia/cache:/app/cache
+            - ${DATA_PATH}/kopia/logs:/app/logs
+            # Mount local folders to snapshot
+            - ${STORAGE_PATH}:/data:ro
+            - /docker:/docker:ro
+            # Mount repository location
+#            - /p/repository/dir:/repository
+            # Mount path for browsing mounted snaphots
+            - /tmp/kopia:/tmp:shared
+
+        privileged: true
+        cap_add:
+          - SYS_ADMIN
+        security_opt:
+          - apparmor:unconfined
+        devices:
+           - /dev/fuse:/dev/fuse:rwm
