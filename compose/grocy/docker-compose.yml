@@ -1,0 +1,27 @@
+---
+services:
+  grocy:
+    image: lscr.io/linuxserver/grocy:latest
+    container_name: grocy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DATA_PATH}/grocy/:/config
+    ports:
+      - 9283:80
+    restart: unless-stopped
+
+  barcodebuddy:
+    image: f0rc3/barcodebuddy
+    container_name: barcodebuddy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - ${DATA_PATH}/barcodebuddy/:/config
+    ports:
+      - 9284:80
+    restart: unless-stopped

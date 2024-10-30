@@ -19,6 +19,8 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     env_file:
       - .env
+    devices:
+      - /dev/dri:/dev/dri
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -26,8 +28,8 @@ services:
     volumes:
       - ${DATA_PATH}/immich/model-cache:/cache
     restart: always
-    devices:
-      - /dev/dri:/dev/dri  # If using Intel QuickSync or VAAPI
+#    devices:
+#      - /dev/dri:/dev/dri  # If using Intel QuickSync or VAAPI
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     env_file:

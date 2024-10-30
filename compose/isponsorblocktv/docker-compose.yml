@@ -1,0 +1,8 @@
+version: '3.3'
+services:
+    iSponsorBlockTV:
+        image: ghcr.io/dmunozv04/isponsorblocktv
+        container_name: iSponsorBlockTV
+        restart: unless-stopped
+        volumes:
+        - ${DATA_PATH}/isponsorblocktv:/app/data #enter the same pathway as you used for your configurator in step 1
