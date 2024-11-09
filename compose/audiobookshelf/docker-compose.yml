@@ -10,4 +10,5 @@ services:
       - ${DATA_PATH}/audiobookshelf/metadata:/metadata
     environment:
       - TZ=America/Los_Angeles
+    restart: unless-stopped
 
