@@ -1,0 +1,17 @@
+---
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1234
+      - PGID=1234
+      - TZ=America/Los_Angeles
+    volumes:
+      - ${DATA_PATH}/bazarr/config:/config
+      - ${STORAGE_PATH}/:${STORAGE_PATH}
+#      - /path/to/movies:/movies #optional
+#      - /path/to/tv:/tv #optional
+    ports:
+      - 6767:6767
+    restart: unless-stopped

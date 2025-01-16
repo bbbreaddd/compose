@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+    watchtower:
+        container_name: watchtower
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock'
+
+        environment:
+            - WATCHTOWER_NOTIFICATIONS=shoutrrr
+            - WATCHTOWER_NOTIFICATION_URL=${NOTIFICATION_URL}
+            - WATCHTOWER_RUN_ONCE=false
+            - WATCHTOWER_LABEL_ENABLE=1
+            - WATCHTOWER_CLEANUP=true
+            - WATCHTOWER_SCHEDULE=0 0 2 * * * # Every day at 2 AM, uses 6 fields instead of 5
+            - WATCHTOWER_ROLLING_RESTART=true
+            - TZ=America/Los_Angeles
+        image: containrrr/watchtower
+        restart: unless-stopped

@@ -1,4 +1,4 @@
 data/
 others/
-*.env*
-!*example.env*
+.*
+!/.gitignore
