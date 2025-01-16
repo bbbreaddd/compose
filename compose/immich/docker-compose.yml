@@ -30,6 +30,8 @@ services:
     restart: always
     healthcheck:
       disable: false
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -46,6 +48,8 @@ services:
     restart: always
     healthcheck:
       disable: false
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   redis:
     container_name: immich_redis
