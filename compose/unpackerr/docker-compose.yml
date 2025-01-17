@@ -1,0 +1,16 @@
+services:
+  unpackerr:
+    image: golift/unpackerr
+    container_name: unpackerr
+    volumes:
+      - /storage/downloads:/downloads # Needs something mounted to /downloads for some reason. 
+      - ${STORAGE}:${STORAGE} # To match my other apps. Not sure why I need to mount /downloads when it still uses the original download path
+    restart: always
+    user: 1234:1234
+    environment:
+      - TZ=America/New_York
+      - UN_LOG_FILE=/downloads/unpackerr.log
+      - UN_SONARR_0_URL=${SONARR_URL}
+      - UN_SONARR_0_API_KEY=${SONARR_API}
+      - UN_RADARR_0_URL=${RADARR_URL}
+      - UN_RADARR_0_API_KEY=${RADARR_API}
