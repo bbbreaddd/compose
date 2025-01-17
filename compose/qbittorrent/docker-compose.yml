@@ -14,6 +14,6 @@ services:
       - ${STORAGE_PATH}:${STORAGE_PATH} #optional
     ports:
       - 8520:8080
-      - 6881:6881
-      - 6881:6881/udp
+      - ${TORRENT_PORT}:${TORRENT_PORT}
+      - ${TORRENT_PORT}:${TORRENT_PORT}/udp
     restart: unless-stopped
