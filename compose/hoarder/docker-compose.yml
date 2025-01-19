@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   web:
     image: ghcr.io/hoarder-app/hoarder-web:${HOARDER_VERSION:-release}

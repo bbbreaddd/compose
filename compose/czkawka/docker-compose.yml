@@ -1,4 +1,3 @@
-version: '3'
 services:
   czkawka:
     image: jlesage/czkawka

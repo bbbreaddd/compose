@@ -1,4 +1,3 @@
----
 services:
   digikam:
     image: lscr.io/linuxserver/digikam:latest

@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   crafty:
     container_name: crafty_container
