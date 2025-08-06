@@ -13,6 +13,8 @@ services:
       - VPN_ENABLED=true
       - VPN_LAN_NETWORK=192.168.1.0/24
       - VPN_CONF=wg0
+      - VPN_PROVIDER=proton
+      - VPN_AUTO_PORT_FORWARD=true
 #      - VPN_ADDITIONAL_PORTS=54981
       - VPN_IP_CHECK_DELAY=5
       - PRIVOXY_ENABLED=false

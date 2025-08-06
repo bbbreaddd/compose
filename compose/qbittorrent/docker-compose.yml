@@ -11,8 +11,12 @@ services:
     volumes:
       - ${DATA_PATH}/qbittorrent/config:/config
       - ${STORAGE_PATH}:${STORAGE_PATH} #optional
+      - ${PATH_2}:${PATH_2} # Optional
     ports:
       - 8520:8080
       - ${TORRENT_PORT}:${TORRENT_PORT}
       - ${TORRENT_PORT}:${TORRENT_PORT}/udp
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+

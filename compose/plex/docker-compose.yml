@@ -1,0 +1,37 @@
+version: "2.1"
+services:
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex2
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VERSION=docker
+    devices:
+    - /dev/dri:/dev/dri   # Intel iGPU
+    volumes:
+      - ${DATA_PATH}/plex/config/:/config
+      - ${STORAGE}:${STORAGE}
+      - /mnt:/mnt
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    restart: unless-stopped
+    # ports:
+    #   - 32400:32400  # Not used since it's in host mode
+
+  plexautolanguages:
+    image: remirigal/plex-auto-languages:latest
+    environment:
+      - PLEX_URL=${PLEX_URL}
+      - PLEX_TOKEN=${PLEX_TOKEN}
+      - TZ=America/Los_Angeles
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - ${DATA_PATH}/plexautolanguages/config:/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700M

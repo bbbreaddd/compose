@@ -17,3 +17,5 @@ services:
       test: ["CMD", "wget", "--spider", "-q", "--tries=1", "http://localhost:8080/settings"]
       interval: 5m
       timeout: 3s
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

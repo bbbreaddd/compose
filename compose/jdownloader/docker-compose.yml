@@ -7,3 +7,6 @@ services:
       - ${DATA_PATH}/jdownloader-2:/config:rw
       - ${DOWNLOAD_PATH}:/output:rw
     restart: unless-stopped
+    environment:
+      USER_ID: ${PUID}
+      GROUP_ID: ${PGID}
