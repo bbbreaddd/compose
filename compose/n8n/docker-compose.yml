@@ -18,3 +18,5 @@ services:
     volumes:
       - ${DATA_PATH}/n8n/n8n_data:/home/node/.n8n
 #        - ./local-files:/files # Probably not needed
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

@@ -15,7 +15,8 @@ services:
     # Drop all Linux capabilities (optional but recommended)
     security_opt: [no-new-privileges:true]
     # Another protection to restrict superuser privileges (optional but recommended)
-
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     environment:
       - CLOUDFLARE_API_TOKEN=${TOKEN}
         # Your Cloudflare API token

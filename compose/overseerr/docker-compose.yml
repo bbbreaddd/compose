@@ -11,3 +11,5 @@ services:
     volumes:
       - ${DATA_PATH}/overseerr/config:/app/config
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
