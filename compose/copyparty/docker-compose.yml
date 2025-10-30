@@ -3,13 +3,13 @@ services:
   copyparty:
     image: copyparty/ac:latest
     container_name: copyparty
-    user: "PUID:PGID"
+    user: "${PUID}:${PGID}"
     ports:
       - 3923:3923
     volumes:
       - ${DATA_PATH}/copyparty/cfg:/cfg:z
       - /storage:/storage:z
-      - ${2ND_PATH}:${2ND_PATH}  # Optional
+      - ${SECOND_PATH}:${SECOND_PATH}  # Optional
 
     environment:
       LD_PRELOAD: /usr/lib/libmimalloc-secure.so.NOPE
@@ -30,3 +30,4 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     devices:
       - "/dev/dri:/dev/dri"
+    restart: unless-stopped
