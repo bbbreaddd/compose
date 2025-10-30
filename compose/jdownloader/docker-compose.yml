@@ -6,6 +6,10 @@ services:
     volumes:
       - ${DATA_PATH}/jdownloader-2:/config:rw
       - ${DOWNLOAD_PATH}:/output:rw
+
+      - ${DATA_PATH}/jdownloader-2/core_clipboard.js:/opt/noVNC/core/clipboard.js:ro #Clipboard feature
+      - ${DATA_PATH}/jdownloader-2/util_browser.js:/opt/noVNC/core/util/browser.js:ro # ^
+      - ${DATA_PATH}/jdownloader-2/core_rfb.js:/opt/noVNC/core/rfb.js:ro #              ^
     restart: unless-stopped
     environment:
       USER_ID: ${PUID}
