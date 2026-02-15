@@ -4,6 +4,9 @@ services:
     restart: unless-stopped
     volumes:
       - ${DATA_PATH}/paperless-ngx/redisdata:/data
+    container_name: paperless-broker
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   db:
     image: docker.io/library/postgres:15
@@ -14,6 +17,9 @@ services:
       POSTGRES_DB: paperless
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    container_name: paperless-db
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -56,15 +62,34 @@ services:
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_URL: ${PAPERLESS_URL}
+      PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: >
+        {
+          "openid_connect": {
+            "APPS": [
+              {
+                "provider_id": "authentik",
+                "name": "Authentik",
+                "client_id": "${OAUTH_CLIENT_ID}",
+                "secret": "OAUTH_CLIENT_SECRET",
+                "settings": {
+                  "server_url": "${OAUTH_URL}"
+                }
+              }
+            ],
+            "OAUTH_PKCE_ENABLED": "True"
+          }
+        }
 
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
 ## Tika and Gotenberg are used to download emails and add to Paperless-NGX
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:7.8
+    image: docker.io/gotenberg/gotenberg:8.25
     restart: unless-stopped
-    container_name: gotenberg
+    container_name: paperless-gotenberg
 
     # The gotenberg chromium route is used to convert .eml files. We do not
     # want to allow external content like tracking pixels or even javascript.
@@ -72,8 +97,12 @@ services:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   tika:
-    image: ghcr.io/paperless-ngx/tika:latest
-    container_name: tika
+    image: docker.io/apache/tika:latest
+    container_name: paperless-tika
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

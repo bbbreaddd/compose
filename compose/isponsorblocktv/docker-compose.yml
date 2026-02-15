@@ -5,3 +5,5 @@ services:
         restart: unless-stopped
         volumes:
         - ${DATA_PATH}/isponsorblocktv:/app/data #enter the same pathway as you used for your configurator in step 1
+        labels:
+          - "com.centurylinklabs.watchtower.enable=true"

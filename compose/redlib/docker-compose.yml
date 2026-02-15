@@ -1,6 +1,8 @@
 services:
   redlib:
-    image: quay.io/redlib/redlib:latest
+#    image: quay.io/redlib/redlib:latest
+# Temp fix since Redlib broke
+    image: ghcr.io/cycneuramus/containers:redlib
     restart: always
     container_name: "redlib"
     ports:

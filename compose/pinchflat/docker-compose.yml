@@ -1,0 +1,17 @@
+services:
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    environment:
+      # Set the timezone to your local timezone
+      - TZ=America/Los_Angeles
+      - PUID=1234
+      - PGID=1234
+    ports:
+      - '8945:8945'
+    volumes:
+      - ${DATA_PATH}/pinchflat/config:/config
+      - ${DOWNLOAD_PATH}:/downloads
+      - ${STORAGE}:${STORAGE}
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

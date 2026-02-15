@@ -10,8 +10,8 @@ services:
       - TORRENTING_PORT=2481
     volumes:
       - ${DATA_PATH}/qbittorrent/config:/config
+      - ${DATA_PATH}/qbittorrent/VueTorrent:/VueTorrent # Optional, if you want VueTorrent
       - ${STORAGE_PATH}:${STORAGE_PATH} #optional
-      - ${PATH_2}:${PATH_2} # Optional
     ports:
       - 8520:8080
       - ${TORRENT_PORT}:${TORRENT_PORT}

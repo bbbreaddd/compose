@@ -9,6 +9,7 @@ services:
     volumes:
       - ${DATA_PATH}/sonarr/config:/config
       - ${STORAGE}:${STORAGE}
+      - /mnt:/mnt
     ports:
       - 8989:8989
     restart: unless-stopped

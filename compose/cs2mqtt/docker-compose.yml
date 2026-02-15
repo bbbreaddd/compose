@@ -1,0 +1,16 @@
+services:
+  cs2mqtt:
+    image: ghcr.io/lupusbytes/cs2mqtt:latest
+    container_name: cs2mqtt
+    ports:
+      - "5989:8080"
+    environment:
+      MQTT__Host: ${MQTT_IP}         # MQTT broker address
+      MQTT__Port: 1883              # MQTT broker port
+      MQTT__UseTLS: false           # Set to true if your broker uses TLS (optional, default: false)
+      MQTT__Username: ${MQTT_USER}           # MQTT client username (optional)
+      MQTT__Password: ${MQTT_PASS}     # MQTT client password (optional)
+      MQTT__ClientId: cs2mqtt       # MQTT client ID (optional)
+      MQTT__ProtocolVersion: 5.0.0  # Allowed values are 3.1.0, 3.1.1, or 5.0.0 (optional, default: 5.0.0)
+      Logging__LogLevel__Default: Debug
+    restart: unless-stopped

@@ -1,34 +1,49 @@
 services:
-  qbittorrent:
-    container_name: qbittorrent-vpn
-    image: ghcr.io/hotio/qbittorrent
-    ports:
-      - "1235:8080"
-      - "8118:8118"
-    environment:
-      - PUID=1234
-      - PGID=1234
-      - UMASK=002
-      - TZ=America/Los_Angeles
-      - VPN_ENABLED=true
-      - VPN_LAN_NETWORK=192.168.1.0/24
-      - VPN_CONF=wg0
-      - VPN_PROVIDER=proton
-      - VPN_AUTO_PORT_FORWARD=true
-#      - VPN_ADDITIONAL_PORTS=54981
-      - VPN_IP_CHECK_DELAY=5
-      - PRIVOXY_ENABLED=false
-    volumes:
-      - ${DATA_PATH}/qbittorrent-vpn/config:/config
-      - /mnt:/mnt
-      - /storage:/storage
+  gluetun:
+    image: ghcr.io/qdm12/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
     cap_add:
       - NET_ADMIN
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=0
-    restart: unless-stopped
-
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - net.ipv6.conf.all.disable_ipv6=1
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+      - SERVER_CITIES=${SERVER_CITIES}
+      - VPN_PORT_FORWARDING=on
+      # Automatic Port forwarding with Proton
+      - VPN_PORT_FORWARDING_UP_COMMAND=/bin/sh -c 'wget -O- --retry-connrefused --post-data "json={\"listen_port\":{{PORTS}}}" http://127.0.0.1:8080/api/v2/app/setPreferences 2>&1'
+    ports:
+      - "1235:8080"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://google.com"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-  
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent-vpn
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+      - QBITTORRENT_INTERFACE=tun0
+    volumes:
+      - ${DATA_PATH}/qbittorrent-vpn/config:/config
+      - ${STORAGE}:${STORAGE}
+      - /mnt:/mnt
+      - ${DATA_PATH}/qbittorrent-vpn/VueTorrent:/VueTorrent # Need to download VueTorrent for this to work
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    restart: unless-stopped
